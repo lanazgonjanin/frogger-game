@@ -1,6 +1,6 @@
-#include <unistd.h>  // used in kbhit()
-#include <termios.h> // used in kbhit()
-#include <fcntl.h>   // used in kbhit()
+#include <unistd.h>
+#include <termios.h>
+#include <fcntl.h> 
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -25,9 +25,7 @@ char lanes[HEIGHT][WIDTH + 1] = {
 };
 int speeds[HEIGHT] = {0, -2, +1, -1, 0, +2, -1, -1, +1, 0};
 
-// Function prototypes (Foward declared)
 void initGame();
-// Declared all functions here, implementation is after int main()
 void draw();
 void input();
 void logic(int updateLanes);
@@ -42,7 +40,6 @@ int main()
     while (1)
     {
         input();
-        // (counter % 5 == 0) return either 0 or 1
         logic(counter % 5 == 0); // Update lanes every 5th iteration (t seconds)
         draw();
         usleep(200000); // Sleep for t/5 seconds (200 milliseconds)
@@ -55,20 +52,14 @@ int i,j;
 
 void initGame()
 {
-    // The initial position of "F" (Frog) in lane9
-    // When frogY == 0 the game is over
     frogX = WIDTH / 2;
     frogY = HEIGHT - 1;
 }
 
-// printing the board
 void draw()
 {
-    // cleans the previous prints
     system("clear");
 
-    // printing the position of Frog (frogX and frogY) with char 'F' and lanes[][]
-    
     for (i = 0; i < HEIGHT; i++)
     {
         for (j = 0; j < WIDTH; j++)
@@ -95,14 +86,12 @@ void draw()
     }
 }
 
-// updating frogY and frogX based on user input from kbhit()
 void input()
 {
     if (kbhit())
     {
         switch (getchar())
         {
-            // updating the poistion of frog (frogY/frogX) based on inputs from kbhit()
             case 'w':
                 if (frogY - 1 >= 0)
                 {
@@ -146,11 +135,6 @@ void input()
 
 void logic(int updateLanes)
 {
-    // if (counter % 5 == 0) then updateLanes = 1
-    // and if updateLanes = 1 then:
-    // First: for i = 0; i < HEIGHT call function updateLane(i)
-    // Second: Check win condition (If frogY == 0 you win then exit(0))
-    // Note: The collision condition was already checked in function input()
     if (updateLanes == 1)
     {
         for (i = 0; i < HEIGHT; i++)
@@ -169,8 +153,6 @@ void logic(int updateLanes)
 
 void updateLane(int lane)
 {
-    // lanes[lane] is updated based on speeds[lane]
-    // (moving left or right based on their speed)
     int k;
 
     for (k = 0; k < HEIGHT; k++)
@@ -195,7 +177,6 @@ void updateLane(int lane)
     
 }
 
-// receiving inputs from keyboard
 int kbhit(void)
 {
     struct termios oldt, newt;
